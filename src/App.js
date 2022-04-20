@@ -1,24 +1,56 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+// import About from "./coponents/About";
+import Navbar from "./coponents/Navbar";
+import TextForm from "./coponents/TextForm";
+import React, { useState } from "react";
+import Alert from "./coponents/Alert";
+// import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 function App() {
+  const [mode, setmode] = useState("light");
+  const [alert, setAlert] = useState(null);
+
+  const showAlert = (message, type) => {
+    setAlert({
+      message: message,
+      type: type,
+    });
+    setTimeout(() => {
+      setAlert(null);
+    }, 4000);
+  };
+
+  const toggleMode = () => {
+    if (mode === "light") {
+      setmode("dark");
+      document.body.style.background = "#1a1a1a";
+      showAlert("Dark mode has been enabled", "success");
+      document.title = "TextUtils - Dark Mode";
+    } else {
+      setmode("light");
+      document.body.style.background = "white";
+      showAlert("Light mode has been enabled", "success");
+      document.title = "TextUtils - Light Mode";
+    }
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    // <Router>
+      <>
+        <Navbar
+          title="TextUtils"
+          mode={mode}
+          toggleMode={toggleMode}
+          aboutText="About Us"
+        ></Navbar>
+        <Alert alert={alert}></Alert>
+        <TextForm mode={mode} showAlert={showAlert} heading="Enter the text to analyze" ></TextForm>
+        {/* <Routes>
+          <Route exact path="/" element={<TextForm mode={mode} showAlert={showAlert} heading="Enter the text to analyze" ></TextForm>} />
+          <Route exact path="/about" element={<About />} />
+
+        </Routes> */}
+      </>
+    // </Router>
   );
 }
 
